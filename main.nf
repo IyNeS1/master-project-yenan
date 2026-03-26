@@ -1,14 +1,69 @@
-process sayHello {
-    publishDir 'results', mode: 'copy'
+#!/usr/bin/env nextflow
+nextflow.enable.dsl=2
+
+params.bam       = "/Users/ny/Desktop/project/nanopore_test_data/bam/m6A_rep1.bam"
+params.reference = "/Users/ny/Desktop/project/nanopore_test_data/references/reference.fa"
+params.outdir    = "/Users/ny/Desktop/project/nanopore_test_data/results"
+
+// 步骤3：Read QC
+process READ_QC {
+    publishDir "${params.outdir}/qc", mode: 'copy'
+
+    input:
+    path bam
+
     output:
-        path 'output.txt'
+    path "qc_output/"
+
     script:
-        """
-        echo 'Hello World!' > output.txt
-        """
+    """
+    NanoPlot --bam ${bam} --outdir qc_output/ --threads 4
+    """
+}
+
+// 步骤4：序列比对
+process ALIGN {
+    publishDir "${params.outdir}/aligned", mode: 'copy'
+
+    input:
+    path bam
+    path reference
+
+    output:
+    path "aligned.bam"
+    path "aligned.bam.bai"
+
+    script:
+    """
+    samtools fastq ${bam} > reads.fastq
+    minimap2 -ax map-ont ${reference} reads.fastq | samtools sort -o aligned.bam
+    samtools index aligned.bam
+    """
+}
+
+// 步骤5+6：修饰检测 + bedMethyl 输出
+process MODKIT_PILEUP {
+    publishDir "${params.outdir}/modkit", mode: 'copy'
+
+    input:
+    path bam
+    path reference
+
+    output:
+    path "modifications.bed"
+
+    script:
+    """
+    samtools index ${bam}
+    modkit pileup --reference ${reference} ${bam} modifications.bed
+    """
 }
 
 workflow {
-    // Run the sayHello process
-    sayHello()
+    bam_ch = Channel.fromPath(params.bam)
+    ref_ch = Channel.fromPath(params.reference)
+
+    READ_QC(bam_ch)
+    ALIGN(bam_ch, ref_ch)
+    MODKIT_PILEUP(bam_ch, ref_ch)
 }

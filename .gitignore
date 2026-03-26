@@ -1,5 +1,29 @@
-nextflow
-.nextflow.log
-.nextflow/
-results/
+cd /Users/ny/Desktop/project/MASTER-PROJECT
+git rebase --abort
+```
+
+## 第二步：更新 .gitignore
+
+在 VSCode 里打开 `.gitignore`，把内容替换成：
+```
 work/
+.nextflow/
+.nextflow.log*
+.nextflow.log
+.nextflow.log.1
+.nextflow.log.2
+.nextflow.log.3
+.nextflow.log.4
+.nextflow.log.5
+.nextflow.log.6
+.nextflow.log.7
+.nextflow.log.8
+.nextflow.log.9
+results/
+*.bam
+*.bai
+*.fastq
+*.pod5
+*.bed
+.DS_Store
+.vscode/

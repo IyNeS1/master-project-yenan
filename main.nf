@@ -5,7 +5,7 @@ params.bam       = "/Users/ny/Desktop/project/nanopore_test_data/bam/m6A_rep1.ba
 params.reference = "/Users/ny/Desktop/project/nanopore_test_data/references/reference.fa"
 params.outdir    = "/Users/ny/Desktop/project/nanopore_test_data/results"
 
-// 步骤3：Read QC
+// Step3：Read QC
 process READ_QC {
     publishDir "${params.outdir}/qc", mode: 'copy'
 
@@ -21,7 +21,7 @@ process READ_QC {
     """
 }
 
-// 步骤4：序列比对
+// Step4：Sequence Alignment
 process ALIGN {
     publishDir "${params.outdir}/aligned", mode: 'copy'
 
@@ -41,7 +41,7 @@ process ALIGN {
     """
 }
 
-// 步骤5+6：修饰检测 + bedMethyl 输出
+// Step5+6：Modification Detection + bedMethyl Output
 process MODKIT_PILEUP {
     publishDir "${params.outdir}/modkit", mode: 'copy'
 

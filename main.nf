@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-params.bam       = "/Users/ny/Desktop/project/nanopore_test_data/bam/m6A_rep1.bam"
-params.reference = "/Users/ny/Desktop/project/nanopore_test_data/references/reference.fa"
-params.outdir    = "/Users/ny/Desktop/project/nanopore_test_data/results"
+params.bam       = null
+params.reference = null
+params.outdir    = "results"
 
 // Step3：Read QC
 process READ_QC {

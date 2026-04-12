@@ -55,7 +55,8 @@ process MODKIT_PILEUP {
     script:
     """
     samtools index ${bam}
-    modkit pileup --reference ${reference} ${bam} modifications.bed
+    modkit pileup --reference ${reference} ${bam} all_modifications.bed
+    grep -E \$'\\ta\\t' all_modifications.bed | awk -F'\\t' '\$11 > 80' > modifications.bed
     """
 }
 

@@ -60,26 +60,19 @@ nextflow run main.nf \
 
 ```bash
 python performance_estimation.py \
-  --m6a /path/to/m6A_results/modifications.bed \
-  --control /path/to/control_results/modifications.bed \
+  --m6a /path/to/results/modkit/modifications.bed \
   --ground_truth /path/to/ground_truth.bed
 ```
-
-## Output
-
-- `results/qc/` - NanoPlot QC report
-- `results/aligned/` - aligned BAM file
-- `results/modkit/` - modifications.bed (bedMethyl format)
 
 ## Performance estimation results (test dataset)
 
 | Metric    | Value |
 | --------- | ----- |
-| TP        | 30    |
-| FP        | 497   |
-| FN        | 0     |
-| Precision | 0.057 |
-| Recall    | 1.000 |
-| F1 Score  | 0.108 |
+| TP        | 29    |
+| FP        | 5     |
+| FN        | 1     |
+| Precision | 0.853 |
+| Recall    | 0.967 |
+| F1 Score  | 0.906 |
 
-High recall indicates all true m6A sites were detected. Low precision suggests the modkit threshold may need calibration to reduce false positives.
+m6A sites were filtered by modification frequency > 80% and modification type 'a' only.

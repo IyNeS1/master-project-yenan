@@ -23,6 +23,12 @@ Pre-basecalled BAM files from ONT open data are used as pipeline input for now.
 - Conda
 - conda environment: `nanopore_env` with NanoPlot, Minimap2, Samtools, modkit, pandas
 
+> **Note:** Before running, update `nextflow.config` with your own conda environment path:
+>
+> ```
+> process.conda = "/path/to/your/conda/envs/nanopore_env"
+> ```
+
 ## Test data
 
 From ONT's RNA Modified Base Best Practices and Benchmarking dataset:

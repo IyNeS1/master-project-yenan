@@ -82,3 +82,30 @@ python performance_estimation.py \
 | F1 Score  | 0.906 |
 
 m6A sites were filtered by modification frequency > 80% and modification type 'a' only.
+
+## Calibration sweep
+
+To find the optimal frequency threshold, run the calibration sweep script:
+
+```bash
+python calibration_sweep.py \
+  --m6a /path/to/modkit_output/m6A_default.bed \
+  --ground_truth /path/to/references/ground_truth.bed
+```
+
+This will test frequency thresholds from 70% to 100% at 1% intervals and generate two plots:
+
+- `calibration_sweep_combined.png` — Precision, Recall and F1 Score on one graph
+- `calibration_sweep_separate.png` — separate plots for each metric
+
+## Calibration sweep results (test dataset)
+
+Best threshold: **80%**
+
+| Threshold | Precision | Recall | F1 Score     |
+| --------- | --------- | ------ | ------------ |
+| 70%       | 0.770     | 1.000  | 0.870        |
+| 75%       | 0.806     | 0.967  | 0.879        |
+| 80%       | 0.853     | 0.967  | **0.906** ✅ |
+| 85%       | 0.853     | 0.967  | 0.906        |
+| 90%       | 0.857     | 0.800  | 0.828        |

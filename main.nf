@@ -4,6 +4,7 @@ nextflow.enable.dsl=2
 params.bam       = null
 params.reference = null
 params.outdir    = "results"
+params.ground_truth = null
 
 // Step3：Read QC
 process READ_QC {
@@ -60,11 +61,33 @@ process MODKIT_PILEUP {
     """
 }
 
+// Calibration sweep
+process CALIBRATION_SWEEP {
+    publishDir "${params.outdir}/calibration", mode: 'copy'
+
+    input:
+    path bed
+    path ground_truth
+
+    output:
+    path "calibration_sweep_combined.png"
+    path "calibration_sweep_separate.png"
+
+    script:
+    """
+    python ${projectDir}/calibration_sweep.py \
+      --m6a ${bed} \
+      --ground_truth ${ground_truth}
+    """
+}
+
 workflow {
-    bam_ch = Channel.fromPath(params.bam)
-    ref_ch = Channel.fromPath(params.reference)
+    bam_ch          = Channel.fromPath(params.bam)
+    ref_ch          = Channel.fromPath(params.reference)
+    ground_truth_ch = Channel.fromPath(params.ground_truth)
 
     READ_QC(bam_ch)
     ALIGN(bam_ch, ref_ch)
-    MODKIT_PILEUP(bam_ch, ref_ch)
+    modkit_out = MODKIT_PILEUP(bam_ch, ref_ch)
+    CALIBRATION_SWEEP(modkit_out, ground_truth_ch)
 }

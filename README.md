@@ -65,7 +65,7 @@ nextflow run main.nf \
 **Performance estimation:**
 
 ```bash
-python performance_estimation.py \
+python bin/performance_estimation.py \
   --m6a /path/to/results/modkit/modifications.bed \
   --ground_truth /path/to/ground_truth.bed
 ```
@@ -88,7 +88,7 @@ m6A sites were filtered by modification frequency > 80% and modification type 'a
 To find the optimal frequency threshold, run the calibration sweep script:
 
 ```bash
-python calibration_sweep.py \
+python bin/calibration_sweep.py \
   --m6a /path/to/modkit_output/m6A_default.bed \
   --ground_truth /path/to/references/ground_truth.bed
 ```

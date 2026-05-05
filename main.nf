@@ -75,7 +75,7 @@ process CALIBRATION_SWEEP {
 
     script:
     """
-    python ${projectDir}/calibration_sweep.py \
+    python ${projectDir}/bin/calibration_sweep.py \
       --m6a ${bed} \
       --ground_truth ${ground_truth}
     """

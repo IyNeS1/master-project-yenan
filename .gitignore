@@ -18,4 +18,9 @@ results/
 *.pod5
 *.bed
 .DS_Store
-.vscode/
+.vscode/results_control/
+results_full/
+slurm_*.err
+slurm_*.out
+report.html
+timeline.html

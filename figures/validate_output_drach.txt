@@ -1,0 +1,50 @@
+> Parsing BED at /data/gpfs/projects/punim2974/data/references/drach_context_m6A_sites.bed
+> Processed 20 BED lines
+> Parsing BED at /data/gpfs/projects/punim2974/data/references/drach_context_A_sites.bed
+> Processed 20 BED lines
+> Canonical base: A
+> Parsing mapping at /data/gpfs/projects/punim2974/master-project-yenan/work/ca/45bd5c0e392567775412a18c0f4ea9/control_aligned.bam
+> Processed 49574 mapping records, 0 skipped, 0 errored
+> Parsing mapping at /data/gpfs/projects/punim2974/master-project-yenan/work/61/90f0ea2635bd944d2c9bd4f2f750db/aligned.bam
+> Processed 49153 mapping records, 0 skipped, 0 errored
+> Raw counts summary
+              Called Base 
+         ┌───┬─────────┬─────────┬─────────┬─────┬─────┬─────┬──────────┐ 
+         │   │ A       │ a       │ No Call │ C   │ G   │ T   │ Deletion │ 
+         ├───┼─────────┼─────────┼─────────┼─────┼─────┼─────┼──────────┤ 
+ Ground  │ A │ 188,247 │   2,833 │   2,527 │ 261 │ 188 │ 598 │      941 │ 
+ Truth   │ a │   7,587 │ 179,741 │   3,382 │ 426 │ 299 │ 814 │    1,082 │ 
+         └───┴─────────┴─────────┴─────────┴─────┴─────┴─────┴──────────┘ 
+
+> Balancing ground truth call totals
+> Balanced counts summary
+              Called Base 
+         ┌───┬─────────┬─────────┐ 
+         │   │ A       │ a       │ 
+         ├───┼─────────┼─────────┤ 
+ Ground  │ A │ 184,551 │   2,777 │ 
+ Truth   │ a │   7,587 │ 179,741 │ 
+         └───┴─────────┴─────────┘ 
+
+> Raw accuracy: 97.23%
+> Raw modified base calls contingency table
+              Called Base 
+         ┌───┬────────┬────────┐ 
+         │   │ A      │ a      │ 
+         ├───┼────────┼────────┤ 
+ Ground  │ A │ 98.52% │  1.48% │ 
+ Truth   │ a │  4.05% │ 95.95% │ 
+         └───┴────────┴────────┘ 
+
+> Call probability threshold: 0.9336
+> Percent of modified base calls removed: 9.89%
+> [1mFiltered accuracy: 99.53%[0m
+> Filtered modified base calls contingency table
+              Called Base 
+         ┌───┬────────┬────────┐ 
+         │   │ A      │ a      │ 
+         ├───┼────────┼────────┤ 
+ Ground  │ A │ 99.70% │  0.30% │ 
+ Truth   │ a │  0.64% │ 99.36% │ 
+         └───┴────────┴────────┘ 
+

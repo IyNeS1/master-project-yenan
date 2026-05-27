@@ -2,25 +2,24 @@
 nextflow.enable.dsl=2
 
 // ── Parameters ──────────────────────────────────────────
-// Modified sample (修饰样本)
+// Modified sample
 params.pod5             = null
 params.bam              = null
 
-// Control sample (对照样本)
+// Control sample
 params.control_pod5     = null
 params.control_bam      = null
 
 // References
 params.reference            = null
-params.ground_truth         = null      // m6A ground truth BED
-params.control_ground_truth = null      // canonical A ground truth BED
+params.ground_truth         = null
+params.control_ground_truth = null
 params.outdir               = "results"
 params.dorado_model         = "rna004_130bps_sup@v5.1.0"
 
-// ── Step 1: Basecalling – modified sample (requires GPU) ─
+// ── Step 1: Basecalling - modified sample (GPU) ─────────
 process BASECALL {
     publishDir "${params.outdir}/basecall", mode: 'copy'
-    conda null
 
     input:
     path pod5
@@ -30,14 +29,14 @@ process BASECALL {
 
     script:
     """
-    dorado basecaller ${params.dorado_model} ${pod5} --modified-bases m6A_DRACH --batchsize 64 > calls.bam
+    dorado basecaller ${params.dorado_model} ${pod5} \
+        --modified-bases m6A_DRACH --batchsize 64 > calls.bam
     """
 }
 
-// ── Step 1b: Basecalling – control sample (requires GPU) ─
+// ── Step 1b: Basecalling - control sample (GPU) ─────────
 process BASECALL_CONTROL {
     publishDir "${params.outdir}/control/basecall", mode: 'copy'
-    conda null
 
     input:
     path pod5
@@ -47,7 +46,8 @@ process BASECALL_CONTROL {
 
     script:
     """
-    dorado basecaller ${params.dorado_model} ${pod5} --modified-bases m6A_DRACH --batchsize 64 > calls.bam
+    dorado basecaller ${params.dorado_model} ${pod5} \
+        --modified-bases m6A_DRACH --batchsize 64 > calls.bam
     """
 }
 
@@ -63,12 +63,11 @@ process READ_QC {
 
     script:
     """
-    export PYTHONPATH=""
-    /home/yenanwang/.conda/envs/nanopore_env/bin/NanoPlot --ubam ${bam} --outdir qc_output/ --threads 4
+    NanoPlot --ubam ${bam} --outdir qc_output/ --threads ${task.cpus}
     """
 }
 
-// ── Step 3: Sequence Alignment – modified sample ────────
+// ── Step 3: Sequence Alignment - modified sample ────────
 process ALIGN {
     publishDir "${params.outdir}/aligned", mode: 'copy'
 
@@ -82,14 +81,14 @@ process ALIGN {
 
     script:
     """
-    /home/yenanwang/.conda/envs/nanopore_env/bin/samtools fastq -T MM,ML ${bam} > reads.fastq
-    /home/yenanwang/.conda/envs/nanopore_env/bin/minimap2 -ax map-ont -y ${reference} reads.fastq \
-        | /home/yenanwang/.conda/envs/nanopore_env/bin/samtools sort -o aligned.bam
-    /home/yenanwang/.conda/envs/nanopore_env/bin/samtools index aligned.bam
+    samtools fastq -T MM,ML ${bam} > reads.fastq
+    minimap2 -ax map-ont -y -t ${task.cpus} ${reference} reads.fastq \
+        | samtools sort -@ ${task.cpus} -o aligned.bam
+    samtools index aligned.bam
     """
 }
 
-// ── Step 3b: Sequence Alignment – control sample ────────
+// ── Step 3b: Sequence Alignment - control sample ────────
 process ALIGN_CONTROL {
     publishDir "${params.outdir}/control/aligned", mode: 'copy'
 
@@ -103,10 +102,10 @@ process ALIGN_CONTROL {
 
     script:
     """
-    /home/yenanwang/.conda/envs/nanopore_env/bin/samtools fastq -T MM,ML ${bam} > reads.fastq
-    /home/yenanwang/.conda/envs/nanopore_env/bin/minimap2 -ax map-ont -y ${reference} reads.fastq \
-        | /home/yenanwang/.conda/envs/nanopore_env/bin/samtools sort -o control_aligned.bam
-    /home/yenanwang/.conda/envs/nanopore_env/bin/samtools index control_aligned.bam
+    samtools fastq -T MM,ML ${bam} > reads.fastq
+    minimap2 -ax map-ont -y -t ${task.cpus} ${reference} reads.fastq \
+        | samtools sort -@ ${task.cpus} -o control_aligned.bam
+    samtools index control_aligned.bam
     """
 }
 
@@ -123,9 +122,9 @@ process MODKIT_PILEUP {
 
     script:
     """
-    /home/yenanwang/.conda/envs/nanopore_env/bin/samtools index ${bam}
+    samtools index ${bam}
     modkit pileup --reference ${reference} ${bam} all_modifications.bed
-    awk -F'\\t' '\$4 == "a" && \$11 > 80' all_modifications.bed > modifications.bed
+    awk -F'\\t' '\$4 == "a" && \$5 >= 50 && \$11 > 80' all_modifications.bed > modifications.bed
     """
 }
 
@@ -143,7 +142,7 @@ process CALIBRATION_SWEEP {
 
     script:
     """
-    export PYTHONPATH="" && /home/yenanwang/.conda/envs/nanopore_env/bin/python ${projectDir}/bin/calibration_sweep.py \
+    python ${projectDir}/bin/calibration_sweep.py \
         --m6a ${bed} \
         --ground_truth ${ground_truth}
     """
@@ -164,7 +163,7 @@ process MODKIT_VALIDATE {
 
     script:
     """
-    /home/yenanwang/.conda/envs/nanopore_env/bin/modkit validate \
+    modkit validate \
         --bam-and-bed ${m6a_bam} ${m6a_ground_truth} \
         --bam-and-bed ${control_bam} ${control_ground_truth} \
         2>&1 | tee validate_output.txt

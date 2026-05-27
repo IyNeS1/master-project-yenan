@@ -1,0 +1,14 @@
+name: nanopore_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - minimap2=2.30
+  - samtools=1.23.1
+  - ont-modkit=0.6.2
+  - nanoplot=1.46.2
+  - python=3.13
+  - pip
+  - pip:
+    - pandas==3.0.2

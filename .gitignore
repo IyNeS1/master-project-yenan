@@ -24,3 +24,17 @@ slurm_*.err
 slurm_*.out
 report.html
 timeline.html
+# Results directories (too large for GitHub)
+results_*/
+# SLURM logs
+slurm-*.out
+slurm_*.out
+slurm_*.err
+# Temporary analysis outputs
+glori_*.png
+glori_*.csv
+# Nextflow work directory
+work/
+# Download job scripts
+download_*.slurm
+extract_*.slurm

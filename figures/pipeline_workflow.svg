@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="460" viewBox="0 0 850 460">
+  <style>
+    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .label { font-size: 13px; font-weight: 600; fill: #2c2c2a; }
+    .sublabel { font-size: 10.5px; font-weight: 400; fill: #5f5e5a; }
+    .legend-text { font-size: 11px; font-weight: 400; fill: #5f5e5a; }
+  </style>
+
+  <!-- ===== Experimental line (m6A sample) ===== -->
+  <line x1="70" y1="100" x2="770" y2="100" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ===== Control line ===== -->
+  <line x1="70" y1="300" x2="450" y2="300" stroke="#0F6E56" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Control line merging up to MODKIT_VALIDATE -->
+  <path d="M450 300 L500 300 L620 200" fill="none" stroke="#0F6E56" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Branch down from experimental to CALIBRATION_SWEEP -->
+  <path d="M470 100 L470 200" fill="none" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Branch down from experimental to MODKIT_VALIDATE -->
+  <path d="M620 100 L620 200" fill="none" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ===== Station dots - Experimental line ===== -->
+  <circle cx="70" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
+  <circle cx="190" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
+  <circle cx="310" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
+  <circle cx="420" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
+  <circle cx="550" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
+  <circle cx="770" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
+
+  <!-- ===== Station dots - Control line ===== -->
+  <circle cx="70" cy="300" r="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5"/>
+  <circle cx="190" cy="300" r="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5"/>
+  <circle cx="420" cy="300" r="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5"/>
+
+  <!-- ===== Convergence stations ===== -->
+  <circle cx="470" cy="200" r="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="2.5"/>
+  <circle cx="620" cy="200" r="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="2.5"/>
+
+  <!-- ===== Labels - Experimental line (above) ===== -->
+  <text class="label" x="70" y="72" text-anchor="middle">POD5</text>
+  <text class="sublabel" x="70" y="58" text-anchor="middle">Input</text>
+
+  <text class="label" x="190" y="72" text-anchor="middle">BASECALL</text>
+  <text class="sublabel" x="190" y="58" text-anchor="middle">Dorado</text>
+
+  <text class="label" x="310" y="72" text-anchor="middle">READ_QC</text>
+  <text class="sublabel" x="310" y="58" text-anchor="middle">NanoPlot</text>
+
+  <text class="label" x="420" y="72" text-anchor="middle">ALIGN</text>
+  <text class="sublabel" x="420" y="58" text-anchor="middle">minimap2</text>
+
+  <text class="label" x="550" y="72" text-anchor="middle">MODKIT_PILEUP</text>
+  <text class="sublabel" x="550" y="58" text-anchor="middle">modkit pileup</text>
+
+  <text class="label" x="770" y="72" text-anchor="middle">bedMethyl</text>
+  <text class="sublabel" x="770" y="58" text-anchor="middle">Output</text>
+
+  <!-- ===== Labels - Control line (below) ===== -->
+  <text class="label" x="70" y="332" text-anchor="middle">POD5</text>
+  <text class="sublabel" x="70" y="346" text-anchor="middle">Control input</text>
+
+  <text class="label" x="190" y="332" text-anchor="middle">BASECALL_CONTROL</text>
+  <text class="sublabel" x="190" y="346" text-anchor="middle">Dorado</text>
+
+  <text class="label" x="420" y="332" text-anchor="middle">ALIGN_CONTROL</text>
+  <text class="sublabel" x="420" y="346" text-anchor="middle">minimap2</text>
+
+  <!-- ===== Labels - Convergence (below stations) ===== -->
+  <text class="label" x="470" y="232" text-anchor="middle">CALIBRATION_SWEEP</text>
+  <text class="sublabel" x="470" y="248" text-anchor="middle">Threshold sweep</text>
+
+  <text class="label" x="660" y="232" text-anchor="middle">MODKIT_VALIDATE</text>
+  <text class="sublabel" x="660" y="248" text-anchor="middle">modkit validate</text>
+
+  <!-- ===== Legend ===== -->
+  <line x1="70" y1="410" x2="100" y2="410" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
+  <text class="legend-text" x="108" y="414">Experimental sample (m6A)</text>
+
+  <line x1="340" y1="410" x2="370" y2="410" stroke="#0F6E56" stroke-width="4" stroke-linecap="round"/>
+  <text class="legend-text" x="378" y="414">Control sample</text>
+
+  <circle cx="560" cy="410" r="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/>
+  <text class="legend-text" x="574" y="414">Validation</text>
+</svg>

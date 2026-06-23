@@ -82,7 +82,7 @@ process ALIGN {
     script:
     """
     samtools fastq -T MM,ML ${bam} > reads.fastq
-    minimap2 -ax map-ont -y -t ${task.cpus} ${reference} reads.fastq \
+    minimap2 -ax splice -uf -k14 -y -t ${task.cpus} ${reference} reads.fastq \
         | samtools sort -@ ${task.cpus} -o aligned.bam
     samtools index aligned.bam
     """
@@ -103,7 +103,7 @@ process ALIGN_CONTROL {
     script:
     """
     samtools fastq -T MM,ML ${bam} > reads.fastq
-    minimap2 -ax map-ont -y -t ${task.cpus} ${reference} reads.fastq \
+    minimap2 -ax splice -uf -k14 -y -t ${task.cpus} ${reference} reads.fastq \
         | samtools sort -@ ${task.cpus} -o control_aligned.bam
     samtools index control_aligned.bam
     """
@@ -119,6 +119,7 @@ process MODKIT_PILEUP {
 
     output:
     path "modifications.bed"
+    path "all_modifications.bed"
 
     script:
     """
@@ -170,15 +171,35 @@ process MODKIT_VALIDATE {
     """
 }
 
+// ── Step 5c: Accuracy comparison against external ground truth ──
+process ACCURACY_COMPARISON {
+    publishDir "${params.outdir}/accuracy", mode: 'copy'
+
+    input:
+    path bed
+    path ground_truth
+
+    output:
+    path "glori_correlation.png"
+    path "glori_accuracy_results.csv"
+
+    script:
+    """
+    python ${projectDir}/bin/glori_correlation.py \
+        --modkit ${bed} \
+        --glori ${ground_truth} \
+        --min_coverage 10
+    """
+}
+
 // ── Workflow ────────────────────────────────────────────
 workflow {
 
-    ref_ch          = Channel.fromPath(params.reference)
-    ground_truth_ch = Channel.fromPath(params.ground_truth)
+    ref_ch = Channel.fromPath(params.reference)
 
     // ── Modified sample (m6A): basecall or use pre-made BAM ──
     if (params.pod5) {
-        pod5_ch = Channel.fromPath(params.pod5)
+        pod5_ch = Channel.fromPath(params.pod5, type: 'any')
         m6a_bam = BASECALL(pod5_ch)
     } else {
         m6a_bam = Channel.fromPath(params.bam)
@@ -187,15 +208,21 @@ workflow {
     READ_QC(m6a_bam)
     ALIGN(m6a_bam, ref_ch)
 
-    // ── Step 4 + 5a: pileup-based evaluation (m6A only) ──
+    // ── Step 4: pileup-based modification detection ──
     modkit_out = MODKIT_PILEUP(ALIGN.out[0], ref_ch)
-    CALIBRATION_SWEEP(modkit_out, ground_truth_ch)
+
+    // ── Step 5a + 5c: evaluation (only if ground truth provided) ──
+    if (params.ground_truth) {
+        ground_truth_ch = Channel.fromPath(params.ground_truth)
+        CALIBRATION_SWEEP(modkit_out[0], ground_truth_ch)
+        ACCURACY_COMPARISON(modkit_out[1], ground_truth_ch)
+    }
 
     // ── Control sample: basecall + align ──
     if (params.control_pod5 || params.control_bam) {
 
         if (params.control_pod5) {
-            ctrl_pod5_ch = Channel.fromPath(params.control_pod5)
+            ctrl_pod5_ch = Channel.fromPath(params.control_pod5, type: 'any')
             ctrl_bam     = BASECALL_CONTROL(ctrl_pod5_ch)
         } else {
             ctrl_bam     = Channel.fromPath(params.control_bam)
@@ -203,14 +230,17 @@ workflow {
 
         ALIGN_CONTROL(ctrl_bam, ref_ch)
 
-        // ── Step 5b: modkit validate (m6A + control) ──
-        ctrl_gt_ch = Channel.fromPath(params.control_ground_truth)
+        // ── Step 5b: modkit validate (only if ground truth provided) ──
+        if (params.ground_truth && params.control_ground_truth) {
+            ground_truth_ch = Channel.fromPath(params.ground_truth)
+            ctrl_gt_ch = Channel.fromPath(params.control_ground_truth)
 
-        MODKIT_VALIDATE(
-            ALIGN.out[0],
-            ground_truth_ch,
-            ALIGN_CONTROL.out[0],
-            ctrl_gt_ch
-        )
+            MODKIT_VALIDATE(
+                ALIGN.out[0],
+                ground_truth_ch,
+                ALIGN_CONTROL.out[0],
+                ctrl_gt_ch
+            )
+        }
     }
 }

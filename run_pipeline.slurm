@@ -34,9 +34,9 @@ cd /data/projects/punim2974/master-project-yenan
 
 # Run pipeline (resume from last successful step)
 nextflow run main.nf \
-    --pod5 /data/projects/punim2974/data/pod5/m6A_rep1_full.pod5 \
-    --control_pod5 /data/projects/punim2974/data/pod5/control_rep1.pod5 \
-    --reference /data/projects/punim2974/data/references/sampled_context_strands.fa \
-    --ground_truth /data/projects/punim2974/data/references/sampled_context_m6A_sites.bed \
-    --control_ground_truth /data/projects/punim2974/data/references/sampled_context_A_sites.bed \
-    --outdir results_full
+    --pod5 /data/projects/punim2974/data/pod5/m6A_DRACH.pod5 \
+    --control_pod5 /data/projects/punim2974/data/pod5/control_DRACH.pod5 \
+    --reference /data/projects/punim2974/data/references/drach_context_strands.fa \
+    --ground_truth /data/projects/punim2974/data/references/drach_context_m6A_sites.bed \
+    --control_ground_truth /data/projects/punim2974/data/references/drach_context_A_sites.bed \
+    --outdir results_drach_final

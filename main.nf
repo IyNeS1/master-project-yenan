@@ -136,16 +136,19 @@ process CALIBRATION_SWEEP {
     input:
     path bed
     path ground_truth
+    path reference
 
     output:
     path "calibration_sweep_combined.png"
     path "calibration_sweep_separate.png"
+    path "calibration_sweep_results.csv"
 
     script:
     """
     python ${projectDir}/bin/calibration_sweep.py \
         --m6a ${bed} \
-        --ground_truth ${ground_truth}
+        --ground_truth ${ground_truth} \
+        --reference ${reference}
     """
 }
 
@@ -214,8 +217,9 @@ workflow {
     // ── Step 5a + 5c: evaluation (only if ground truth provided) ──
     if (params.ground_truth) {
         ground_truth_ch = Channel.fromPath(params.ground_truth)
-        CALIBRATION_SWEEP(modkit_out[0], ground_truth_ch)
+        CALIBRATION_SWEEP(modkit_out[1], ground_truth_ch, ref_ch)
         ACCURACY_COMPARISON(modkit_out[1], ground_truth_ch)
+
     }
 
     // ── Control sample: basecall + align ──

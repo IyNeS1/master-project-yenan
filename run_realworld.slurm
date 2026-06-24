@@ -17,7 +17,8 @@ export PYTHONPATH=""
 cd /data/projects/punim2974/master-project-yenan
 
 nextflow run main.nf \
-    --pod5 /data/projects/punim2974/data/pod5_pass \
+    --bam /data/projects/punim2974/master-project-yenan/results_hek293t/basecall/calls.bam \
+    --control_pod5 /data/projects/punim2974/data/pod5_ivt \
     --reference /data/projects/punim2974/data/references/GRCh38.primary_assembly.genome.fa \
     --ground_truth /data/projects/punim2974/data/references/GSM6432590_293T-mRNA-1_35bp_m2.totalm6A.FDR.csv \
     --outdir results_hek293t \

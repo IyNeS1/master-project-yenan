@@ -5,28 +5,52 @@ import argparse
 # Accept command line arguments
 parser = argparse.ArgumentParser(description="Calibration sweep for m6A frequency threshold")
 parser.add_argument("--m6a", required=True, help="Path to modkit output .bed file")
-parser.add_argument("--ground_truth", required=True, help="Path to ground truth .bed file")
+parser.add_argument("--ground_truth", required=True, help="Path to ground truth file (ONT BED or GLORI CSV)")
+parser.add_argument("--threshold_min", type=int, default=5, help="Minimum threshold percentage (default: 5)")
+parser.add_argument("--threshold_max", type=int, default=100, help="Maximum threshold percentage (default: 100)")
 args = parser.parse_args()
 
-# Read files
+# Read modkit bedMethyl
 modkit_cols = ["chrom", "start", "end", "mod", "score", "strand",
                "start2", "end2", "color", "coverage", "freq",
                "mod_count", "unmod_count", "c1", "c2", "c3", "c4", "c5"]
 
 m6a_all = pd.read_csv(args.m6a, sep="\t", header=None, names=modkit_cols)
-ground_truth = pd.read_csv(args.ground_truth, sep="\t", header=None,
-                            names=["chrom", "start", "end", "mod", "score", "strand"])
-
-# Filter m6A only
 m6a_all = m6a_all[m6a_all["mod"] == "a"]
-ground_truth = ground_truth[ground_truth["mod"] == "a"]
+
+# Auto-detect ground truth format by checking header
+gt_path = args.ground_truth
+with open(gt_path, "r") as f:
+    first_line = f.readline()
+
+if "Chr" in first_line and "Sites" in first_line:
+    # GLORI format: tab-separated with header
+    # Columns: Chr, Sites, Strand, Gene, Transcript, NonCR, AGcov, Acov, Genecov, Ratio, ...
+    print(f"Detected GLORI format: {gt_path}")
+    gt_raw = pd.read_csv(gt_path, sep="\t")
+    # GLORI Sites is 1-based; bedMethyl start is 0-based
+    gt_df = pd.DataFrame({
+        "chrom": gt_raw["Chr"].astype(str),
+        "start": gt_raw["Sites"].astype(int) - 1,
+        "strand": gt_raw["Strand"].astype(str)
+    })
+    # Add "chr" prefix if missing
+    if not gt_df["chrom"].iloc[0].startswith("chr"):
+        gt_df["chrom"] = "chr" + gt_df["chrom"]
+else:
+    # ONT BED format: tab-separated, no header, 6 columns
+    print(f"Detected ONT BED format: {gt_path}")
+    gt_df = pd.read_csv(gt_path, sep="\t", header=None,
+                         names=["chrom", "start", "end", "mod", "score", "strand"])
+    gt_df = gt_df[gt_df["mod"] == "a"]
 
 # Create ground truth site identifiers
-ground_truth["site"] = ground_truth["chrom"].astype(str) + "_" + ground_truth["start"].astype(str) + "_" + ground_truth["strand"].fillna("").astype(str)
-gt_sites = set(ground_truth["site"])
+gt_df["site"] = gt_df["chrom"].astype(str) + "_" + gt_df["start"].astype(str) + "_" + gt_df["strand"].fillna("").astype(str)
+gt_sites = set(gt_df["site"])
+print(f"Ground truth sites: {len(gt_sites)}")
 
-# Run calibration sweep from 70% to 100% at 1% intervals
-thresholds = list(range(70, 101))
+# Run calibration sweep
+thresholds = list(range(args.threshold_min, args.threshold_max + 1, 5))
 results = []
 
 for threshold in thresholds:
@@ -49,7 +73,7 @@ for threshold in thresholds:
         "Recall": recall,
         "F1": f1
     })
-    print(f"Threshold: {threshold}% | Precision: {precision:.3f} | Recall: {recall:.3f} | F1: {f1:.3f}")
+    print(f"Threshold: {threshold}% | TP: {TP} | FP: {FP} | FN: {FN} | Precision: {precision:.3f} | Recall: {recall:.3f} | F1: {f1:.3f}")
 
 # Convert to dataframe
 df = pd.DataFrame(results)
@@ -71,7 +95,6 @@ plt.legend()
 plt.grid(True)
 plt.tight_layout()
 plt.savefig("calibration_sweep_combined.png", dpi=150)
-plt.show()
 
 # Plot 2: Separate subplots for each metric
 fig, axes = plt.subplots(3, 1, figsize=(10, 12))
@@ -98,6 +121,8 @@ axes[2].grid(True)
 
 plt.tight_layout()
 plt.savefig("calibration_sweep_separate.png", dpi=150)
-plt.show()
 
+# Save results to CSV
+df.to_csv("calibration_sweep_results.csv", index=False)
 print("Plots saved as calibration_sweep_combined.png and calibration_sweep_separate.png")
+print("Results saved as calibration_sweep_results.csv")

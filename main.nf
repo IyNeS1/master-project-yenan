@@ -129,6 +129,26 @@ process MODKIT_PILEUP {
     """
 }
 
+// ── Step 4b: Modification Detection for control sample ──
+process MODKIT_PILEUP_CONTROL {
+    publishDir "${params.outdir}/control/modkit", mode: 'copy'
+
+    input:
+    path bam
+    path reference
+
+    output:
+    path "control_modifications.bed"
+    path "control_all_modifications.bed"
+
+    script:
+    """
+    samtools index ${bam}
+    modkit pileup --reference ${reference} ${bam} control_all_modifications.bed
+    awk -F'\\t' '\$4 == "a" && \$5 >= 50 && \$11 > 80' control_all_modifications.bed > control_modifications.bed
+    """
+}
+
 // ── Step 5a: Calibration Sweep ──────────────────────────
 process CALIBRATION_SWEEP {
     publishDir "${params.outdir}/calibration", mode: 'copy'
@@ -149,6 +169,29 @@ process CALIBRATION_SWEEP {
         --m6a ${bed} \
         --ground_truth ${ground_truth} \
         --reference ${reference}
+        
+    """
+}
+
+// ── Step 5a-b: Calibration Sweep for control sample (IVT negative control) ──
+process CALIBRATION_SWEEP_CONTROL {
+    publishDir "${params.outdir}/control/calibration", mode: 'copy'
+
+    input:
+    path bed
+    path ground_truth
+
+    output:
+    path "calibration_sweep_ivt_combined.png"
+    path "calibration_sweep_ivt_fp_trend.png"
+    path "calibration_sweep_ivt_results.csv"
+
+    script:
+    """
+    python ${projectDir}/bin/calibration_sweep_ivt.py \
+        --m6a ${bed} \
+        --ground_truth ${ground_truth} \
+        --min_coverage 10
     """
 }
 
@@ -233,6 +276,15 @@ workflow {
         }
 
         ALIGN_CONTROL(ctrl_bam, ref_ch)
+
+        // ── Step 4b: pileup for control sample ──
+        ctrl_modkit_out = MODKIT_PILEUP_CONTROL(ALIGN_CONTROL.out[0], ref_ch)
+
+        // ── Step 5a-b: calibration sweep for control (only if control ground truth provided) ──
+        if (params.control_ground_truth) {
+            ctrl_gt_ch2 = Channel.fromPath(params.control_ground_truth)
+            CALIBRATION_SWEEP_CONTROL(ctrl_modkit_out[1], ctrl_gt_ch2)
+        }
 
         // ── Step 5b: modkit validate (only if ground truth provided) ──
         if (params.ground_truth && params.control_ground_truth) {

@@ -78,3 +78,26 @@ jobs:
           context: containers/nanoplot
           push: true
           tags: ${{ env.REGISTRY }}/iynes1/nanoplot:1.0
+
+  build-python-scripts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push python-scripts
+        uses: docker/build-push-action@v5
+        with:
+          context: containers/python-scripts
+          push: true
+          tags: ${{ env.REGISTRY }}/iynes1/python-scripts:1.0

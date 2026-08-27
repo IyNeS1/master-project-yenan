@@ -31,4 +31,4 @@ jobs:
         with:
           context: containers/minimap2-samtools
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/minimap2-samtools:1.0
+          tags: ${{ env.REGISTRY }}/iynes1/minimap2-samtools:1.0

@@ -7,6 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libhts-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir pandas==3.0.2 matplotlib pysam
+RUN pip install --no-cache-dir pandas==3.0.2 matplotlib pysam scipy
 
 CMD ["/bin/bash"]

@@ -38,3 +38,13 @@ work/
 # Download job scripts
 download_*.slurm
 extract_*.slurm
+
+# SIF images (too large for git)
+containers/sif/
+
+# SLURM logs and scripts (Spartan-specific)
+slurm_logs/
+slurm_scripts/
+
+# Refactor test results
+results_refactor_test/

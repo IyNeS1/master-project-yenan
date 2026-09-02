@@ -20,7 +20,7 @@ params.outdir               = "results"
 params.dorado_model         = "rna004_130bps_sup@v5.1.0"
 params.kvalue               = 14
 params.min_coverage         = 50
-params.mod_threshold        = 80
+params.mod_threshold        = 15
 
 // ── Include modules ─────────────────────────────────────
 include { BASECALL as BASECALL_WT      } from './modules/basecall'

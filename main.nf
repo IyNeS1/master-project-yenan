@@ -2,300 +2,125 @@
 nextflow.enable.dsl=2
 
 // ── Parameters ──────────────────────────────────────────
-// Modified sample
-params.pod5             = null
-params.bam              = null
+// Modified sample (WT)
+params.pod5                 = null
+params.bam                  = null
 
-// Control sample
-params.control_pod5     = null
-params.control_bam      = null
+// Control sample (IVT)
+params.control_pod5         = null
+params.control_bam          = null
 
-// References
+// References and ground truth
 params.reference            = null
 params.ground_truth         = null
 params.control_ground_truth = null
+
+// Pipeline settings
 params.outdir               = "results"
 params.dorado_model         = "rna004_130bps_sup@v5.1.0"
+params.kvalue               = 14
+params.min_coverage         = 50
+params.mod_threshold        = 80
 
-// ── Step 1: Basecalling - modified sample (GPU) ─────────
-process BASECALL {
-    publishDir "${params.outdir}/basecall", mode: 'copy'
-
-    input:
-    path pod5
-
-    output:
-    path "calls.bam"
-
-    script:
-    """
-    dorado basecaller ${params.dorado_model} ${pod5} \
-        --modified-bases m6A_DRACH --batchsize 64 > calls.bam
-    """
-}
-
-// ── Step 1b: Basecalling - control sample (GPU) ─────────
-process BASECALL_CONTROL {
-    publishDir "${params.outdir}/control/basecall", mode: 'copy'
-
-    input:
-    path pod5
-
-    output:
-    path "calls.bam"
-
-    script:
-    """
-    dorado basecaller ${params.dorado_model} ${pod5} \
-        --modified-bases m6A_DRACH --batchsize 64 > calls.bam
-    """
-}
-
-// ── Step 2: Read QC ─────────────────────────────────────
-process READ_QC {
-    publishDir "${params.outdir}/qc", mode: 'copy'
-
-    input:
-    path bam
-
-    output:
-    path "qc_output/"
-
-    script:
-    """
-    NanoPlot --ubam ${bam} --outdir qc_output/ --threads ${task.cpus}
-    """
-}
-
-// ── Step 3: Sequence Alignment - modified sample ────────
-process ALIGN {
-    publishDir "${params.outdir}/aligned", mode: 'copy'
-
-    input:
-    path bam
-    path reference
-
-    output:
-    path "aligned.bam"
-    path "aligned.bam.bai"
-
-    script:
-    """
-    samtools fastq -T MM,ML ${bam} > reads.fastq
-    minimap2 -ax splice -uf -k14 -y -t ${task.cpus} ${reference} reads.fastq \
-        | samtools sort -@ ${task.cpus} -o aligned.bam
-    samtools index aligned.bam
-    """
-}
-
-// ── Step 3b: Sequence Alignment - control sample ────────
-process ALIGN_CONTROL {
-    publishDir "${params.outdir}/control/aligned", mode: 'copy'
-
-    input:
-    path bam
-    path reference
-
-    output:
-    path "control_aligned.bam"
-    path "control_aligned.bam.bai"
-
-    script:
-    """
-    samtools fastq -T MM,ML ${bam} > reads.fastq
-    minimap2 -ax splice -uf -k14 -y -t ${task.cpus} ${reference} reads.fastq \
-        | samtools sort -@ ${task.cpus} -o control_aligned.bam
-    samtools index control_aligned.bam
-    """
-}
-
-// ── Step 4: Modification Detection (bedMethyl) ──────────
-process MODKIT_PILEUP {
-    publishDir "${params.outdir}/modkit", mode: 'copy'
-
-    input:
-    path bam
-    path reference
-
-    output:
-    path "modifications.bed"
-    path "all_modifications.bed"
-
-    script:
-    """
-    samtools index ${bam}
-    modkit pileup --reference ${reference} ${bam} all_modifications.bed
-    awk -F'\\t' '\$4 == "a" && \$5 >= 50 && \$11 > 80' all_modifications.bed > modifications.bed
-    """
-}
-
-// ── Step 4b: Modification Detection for control sample ──
-process MODKIT_PILEUP_CONTROL {
-    publishDir "${params.outdir}/control/modkit", mode: 'copy'
-
-    input:
-    path bam
-    path reference
-
-    output:
-    path "control_modifications.bed"
-    path "control_all_modifications.bed"
-
-    script:
-    """
-    samtools index ${bam}
-    modkit pileup --reference ${reference} ${bam} control_all_modifications.bed
-    awk -F'\\t' '\$4 == "a" && \$5 >= 50 && \$11 > 80' control_all_modifications.bed > control_modifications.bed
-    """
-}
-
-// ── Step 5a: Calibration Sweep ──────────────────────────
-process CALIBRATION_SWEEP {
-    publishDir "${params.outdir}/calibration", mode: 'copy'
-
-    input:
-    path bed
-    path ground_truth
-    path reference
-
-    output:
-    path "calibration_sweep_combined.png"
-    path "calibration_sweep_separate.png"
-    path "calibration_sweep_results.csv"
-
-    script:
-    """
-    python ${projectDir}/bin/calibration_sweep.py \
-        --m6a ${bed} \
-        --ground_truth ${ground_truth} \
-        --reference ${reference}
-        
-    """
-}
-
-// ── Step 5a-b: Calibration Sweep for control sample (IVT negative control) ──
-process CALIBRATION_SWEEP_CONTROL {
-    publishDir "${params.outdir}/control/calibration", mode: 'copy'
-
-    input:
-    path bed
-    path ground_truth
-
-    output:
-    path "calibration_sweep_ivt_combined.png"
-    path "calibration_sweep_ivt_fp_trend.png"
-    path "calibration_sweep_ivt_results.csv"
-
-    script:
-    """
-    python ${projectDir}/bin/calibration_sweep_ivt.py \
-        --m6a ${bed} \
-        --ground_truth ${ground_truth} \
-        --min_coverage 10
-    """
-}
-
-// ── Step 5b: Modkit Validate (ONT benchmark method) ─────
-process MODKIT_VALIDATE {
-    publishDir "${params.outdir}/validate", mode: 'copy'
-
-    input:
-    path m6a_bam
-    path m6a_ground_truth
-    path control_bam
-    path control_ground_truth
-
-    output:
-    path "validate_output.txt"
-
-    script:
-    """
-    modkit validate \
-        --bam-and-bed ${m6a_bam} ${m6a_ground_truth} \
-        --bam-and-bed ${control_bam} ${control_ground_truth} \
-        2>&1 | tee validate_output.txt
-    """
-}
-
-// ── Step 5c: Accuracy comparison against external ground truth ──
-process ACCURACY_COMPARISON {
-    publishDir "${params.outdir}/accuracy", mode: 'copy'
-
-    input:
-    path bed
-    path ground_truth
-
-    output:
-    path "glori_correlation.png"
-    path "glori_accuracy_results.csv"
-
-    script:
-    """
-    python ${projectDir}/bin/glori_correlation.py \
-        --modkit ${bed} \
-        --glori ${ground_truth} \
-        --min_coverage 10
-    """
-}
+// ── Include modules ─────────────────────────────────────
+include { BASECALL as BASECALL_WT      } from './modules/basecall'
+include { BASECALL as BASECALL_CONTROL } from './modules/basecall'
+include { READ_QC                      } from './modules/read_qc'
+include { ALIGN as ALIGN_WT            } from './modules/align'
+include { ALIGN as ALIGN_CONTROL       } from './modules/align'
+include { MODKIT_PILEUP as PILEUP_WT      } from './modules/modkit_pileup'
+include { MODKIT_PILEUP as PILEUP_CONTROL } from './modules/modkit_pileup'
+include { CALIBRATION_SWEEP            } from './modules/calibration_sweep'
+include { CALIBRATION_SWEEP_IVT        } from './modules/calibration_sweep_ivt'
+include { MODKIT_VALIDATE              } from './modules/modkit_validate'
+include { ACCURACY_COMPARISON          } from './modules/accuracy_comparison'
 
 // ── Workflow ────────────────────────────────────────────
 workflow {
 
     ref_ch = Channel.fromPath(params.reference)
 
-    // ── Modified sample (m6A): basecall or use pre-made BAM ──
+    // ── WT sample: basecall or use pre-made BAM ──
     if (params.pod5) {
         pod5_ch = Channel.fromPath(params.pod5, type: 'any')
-        m6a_bam = BASECALL(pod5_ch)
+        wt_bam  = BASECALL_WT(Channel.of('wt').combine(pod5_ch))
     } else {
-        m6a_bam = Channel.fromPath(params.bam)
+        wt_bam  = Channel.of('wt').combine(Channel.fromPath(params.bam))
     }
 
-    READ_QC(m6a_bam)
-    ALIGN(m6a_bam, ref_ch)
+    // Read QC on WT
+    READ_QC(wt_bam)
 
-    // ── Step 4: pileup-based modification detection ──
-    modkit_out = MODKIT_PILEUP(ALIGN.out[0], ref_ch)
+    // Align WT
+    wt_align_in = wt_bam
+        .map { sid, bam -> tuple(sid, params.kvalue, bam) }
+        .combine(ref_ch)
+    wt_aligned  = ALIGN_WT(wt_align_in)
+    // wt_aligned: [sample_id, aligned.bam, aligned.bam.bai]
 
-    // ── Step 5a + 5c: evaluation (only if ground truth provided) ──
+    // Modkit pileup on WT
+    wt_pileup_in = wt_aligned.combine(ref_ch)
+    wt_modkit    = PILEUP_WT(wt_pileup_in)
+    // wt_modkit: [sample_id, modifications.bed, all_modifications.bed]
+
+    // ── Evaluation: only if ground truth provided ──
     if (params.ground_truth) {
-        ground_truth_ch = Channel.fromPath(params.ground_truth)
-        CALIBRATION_SWEEP(modkit_out[1], ground_truth_ch, ref_ch)
-        ACCURACY_COMPARISON(modkit_out[1], ground_truth_ch)
+        gt_ch = Channel.fromPath(params.ground_truth)
 
+        // Calibration sweep (uses all_modifications.bed)
+        cal_in = wt_modkit
+            .map { sid, mod_bed, all_bed -> tuple(sid, all_bed) }
+            .combine(gt_ch)
+            .combine(ref_ch)
+        CALIBRATION_SWEEP(cal_in)
+
+        // GLORI correlation
+        acc_in = wt_modkit
+            .map { sid, mod_bed, all_bed -> tuple(sid, all_bed) }
+            .combine(gt_ch)
+        ACCURACY_COMPARISON(acc_in)
     }
 
-    // ── Control sample: basecall + align ──
+    // ── Control sample: basecall + align + pileup ──
     if (params.control_pod5 || params.control_bam) {
 
         if (params.control_pod5) {
             ctrl_pod5_ch = Channel.fromPath(params.control_pod5, type: 'any')
-            ctrl_bam     = BASECALL_CONTROL(ctrl_pod5_ch)
+            ctrl_bam     = BASECALL_CONTROL(Channel.of('control').combine(ctrl_pod5_ch))
         } else {
-            ctrl_bam     = Channel.fromPath(params.control_bam)
+            ctrl_bam     = Channel.of('control').combine(Channel.fromPath(params.control_bam))
         }
 
-        ALIGN_CONTROL(ctrl_bam, ref_ch)
+        // Align control
+        ctrl_align_in = ctrl_bam
+            .map { sid, bam -> tuple(sid, params.kvalue, bam) }
+            .combine(ref_ch)
+        ctrl_aligned  = ALIGN_CONTROL(ctrl_align_in)
 
-        // ── Step 4b: pileup for control sample ──
-        ctrl_modkit_out = MODKIT_PILEUP_CONTROL(ALIGN_CONTROL.out[0], ref_ch)
+        // Modkit pileup on control
+        ctrl_pileup_in = ctrl_aligned.combine(ref_ch)
+        ctrl_modkit    = PILEUP_CONTROL(ctrl_pileup_in)
 
-        // ── Step 5a-b: calibration sweep for control (only if control ground truth provided) ──
+        // IVT calibration sweep (only if control ground truth provided)
         if (params.control_ground_truth) {
-            ctrl_gt_ch2 = Channel.fromPath(params.control_ground_truth)
-            CALIBRATION_SWEEP_CONTROL(ctrl_modkit_out[1], ctrl_gt_ch2)
-        }
-
-        // ── Step 5b: modkit validate (only if ground truth provided) ──
-        if (params.ground_truth && params.control_ground_truth) {
-            ground_truth_ch = Channel.fromPath(params.ground_truth)
             ctrl_gt_ch = Channel.fromPath(params.control_ground_truth)
 
+            ivt_cal_in = ctrl_modkit
+                .map { sid, mod_bed, all_bed -> tuple(sid, all_bed) }
+                .combine(ctrl_gt_ch)
+            CALIBRATION_SWEEP_IVT(ivt_cal_in)
+        }
+
+        // Modkit validate (needs both WT and control ground truth)
+        if (params.ground_truth && params.control_ground_truth) {
+            gt_ch2      = Channel.fromPath(params.ground_truth)
+            ctrl_gt_ch2 = Channel.fromPath(params.control_ground_truth)
+
             MODKIT_VALIDATE(
-                ALIGN.out[0],
-                ground_truth_ch,
-                ALIGN_CONTROL.out[0],
-                ctrl_gt_ch
+                wt_aligned.map { sid, bam, bai -> bam },
+                gt_ch2,
+                ctrl_aligned.map { sid, bam, bai -> bam },
+                ctrl_gt_ch2
             )
         }
     }

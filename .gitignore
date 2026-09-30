@@ -48,3 +48,7 @@ slurm_scripts/
 
 # Refactor test results
 results_refactor_test/
+PROJECT_STRUCTURE.md
+
+# Nextflow Singularity image cache (large binaries)
+containers/cache/

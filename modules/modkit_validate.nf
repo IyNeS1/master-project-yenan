@@ -2,9 +2,11 @@ process MODKIT_VALIDATE {
     publishDir "${params.outdir}/validate", mode: 'copy'
 
     input:
-    path m6a_bam
+    // Stage into separate subdirectories: both BAMs come from the same ALIGN module
+    // and share the file name aligned.bam, which would otherwise collide
+    path m6a_bam, stageAs: 'wt/*'
     path m6a_ground_truth
-    path control_bam
+    path control_bam, stageAs: 'control/*'
     path control_ground_truth
 
     output:
@@ -12,9 +14,9 @@ process MODKIT_VALIDATE {
 
     script:
     """
-    modkit validate \
-        --bam-and-bed ${m6a_bam} ${m6a_ground_truth} \
-        --bam-and-bed ${control_bam} ${control_ground_truth} \
+    modkit validate \\
+        --bam-and-bed ${m6a_bam} ${m6a_ground_truth} \\
+        --bam-and-bed ${control_bam} ${control_ground_truth} \\
         2>&1 | tee validate_output.txt
     """
 }

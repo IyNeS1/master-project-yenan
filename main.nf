@@ -41,9 +41,15 @@ workflow {
     ref_ch = Channel.fromPath(params.reference)
 
     // ── WT sample: basecall or use pre-made BAM ──
+    // Dorado models are required only when basecalling from POD5
+    if ((params.pod5 || params.control_pod5) && !params.dorado_models_dir) {
+        error "Please provide --dorado_models_dir when starting from POD5 input"
+    }
+    dorado_models_ch = params.dorado_models_dir ? Channel.value(file(params.dorado_models_dir, checkIfExists: true)) : null
+
     if (params.pod5) {
         pod5_ch = Channel.fromPath(params.pod5, type: 'any')
-        wt_bam  = BASECALL_WT(Channel.of('wt').combine(pod5_ch))
+        wt_bam  = BASECALL_WT(Channel.of('wt').combine(pod5_ch), dorado_models_ch)
     } else {
         wt_bam  = Channel.of('wt').combine(Channel.fromPath(params.bam))
     }
@@ -75,10 +81,14 @@ workflow {
         CALIBRATION_SWEEP(cal_in)
 
         // GLORI correlation
-        acc_in = wt_modkit
-            .map { sid, mod_bed, all_bed -> tuple(sid, all_bed) }
-            .combine(gt_ch)
-        ACCURACY_COMPARISON(acc_in)
+        // GLORI correlation only applies to real-world data with a GLORI CSV ground truth;
+        // synthetic BED ground truths have no per-site modification levels to correlate
+        if (params.ground_truth.toString().endsWith('.csv')) {
+            acc_in = wt_modkit
+                .map { sid, mod_bed, all_bed -> tuple(sid, all_bed) }
+                .combine(gt_ch)
+            ACCURACY_COMPARISON(acc_in)
+        }
     }
 
     // ── Control sample: basecall + align + pileup ──
@@ -86,7 +96,7 @@ workflow {
 
         if (params.control_pod5) {
             ctrl_pod5_ch = Channel.fromPath(params.control_pod5, type: 'any')
-            ctrl_bam     = BASECALL_CONTROL(Channel.of('control').combine(ctrl_pod5_ch))
+            ctrl_bam     = BASECALL_CONTROL(Channel.of('control').combine(ctrl_pod5_ch), dorado_models_ch)
         } else {
             ctrl_bam     = Channel.of('control').combine(Channel.fromPath(params.control_bam))
         }

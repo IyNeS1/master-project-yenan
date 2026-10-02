@@ -25,11 +25,12 @@ params.mod_threshold        = 15
 // ── Include modules ─────────────────────────────────────
 include { BASECALL as BASECALL_WT      } from './modules/basecall'
 include { BASECALL as BASECALL_CONTROL } from './modules/basecall'
-include { READ_QC                      } from './modules/read_qc'
+include { READ_QC as READ_QC_WT      } from './modules/read_qc'
+include { READ_QC as READ_QC_CONTROL } from './modules/read_qc'
 include { ALIGN as ALIGN_WT            } from './modules/align'
 include { ALIGN as ALIGN_CONTROL       } from './modules/align'
-include { MODKIT_PILEUP as PILEUP_WT      } from './modules/modkit_pileup'
-include { MODKIT_PILEUP as PILEUP_CONTROL } from './modules/modkit_pileup'
+include { MODKIT_PILEUP as MODKIT_PILEUP_WT      } from './modules/modkit_pileup'
+include { MODKIT_PILEUP as MODKIT_PILEUP_CONTROL } from './modules/modkit_pileup'
 include { CALIBRATION_SWEEP            } from './modules/calibration_sweep'
 include { CALIBRATION_SWEEP_IVT        } from './modules/calibration_sweep_ivt'
 include { MODKIT_VALIDATE              } from './modules/modkit_validate'
@@ -55,7 +56,7 @@ workflow {
     }
 
     // Read QC on WT
-    READ_QC(wt_bam)
+    READ_QC_WT(wt_bam)
 
     // Align WT
     wt_align_in = wt_bam
@@ -66,7 +67,7 @@ workflow {
 
     // Modkit pileup on WT
     wt_pileup_in = wt_aligned.combine(ref_ch)
-    wt_modkit    = PILEUP_WT(wt_pileup_in)
+    wt_modkit    = MODKIT_PILEUP_WT(wt_pileup_in)
     // wt_modkit: [sample_id, modifications.bed, all_modifications.bed]
 
     // ── Evaluation: only if ground truth provided ──
@@ -101,6 +102,9 @@ workflow {
             ctrl_bam     = Channel.of('control').combine(Channel.fromPath(params.control_bam))
         }
 
+        // Read QC on control
+        READ_QC_CONTROL(ctrl_bam)
+
         // Align control
         ctrl_align_in = ctrl_bam
             .map { sid, bam -> tuple(sid, params.kvalue, bam) }
@@ -109,7 +113,7 @@ workflow {
 
         // Modkit pileup on control
         ctrl_pileup_in = ctrl_aligned.combine(ref_ch)
-        ctrl_modkit    = PILEUP_CONTROL(ctrl_pileup_in)
+        ctrl_modkit    = MODKIT_PILEUP_CONTROL(ctrl_pileup_in)
 
         // IVT calibration sweep (only if control ground truth provided)
         if (params.control_ground_truth) {

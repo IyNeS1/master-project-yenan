@@ -1,87 +1,181 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="850" height="460" viewBox="0 0 850 460">
-  <style>
-    text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .label { font-size: 13px; font-weight: 600; fill: #2c2c2a; }
-    .sublabel { font-size: 10.5px; font-weight: 400; fill: #5f5e5a; }
-    .legend-text { font-size: 11px; font-weight: 400; fill: #5f5e5a; }
-  </style>
-
-  <!-- ===== Experimental line (m6A sample) ===== -->
-  <line x1="70" y1="100" x2="770" y2="100" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
-
-  <!-- ===== Control line ===== -->
-  <line x1="70" y1="300" x2="450" y2="300" stroke="#0F6E56" stroke-width="4" stroke-linecap="round"/>
-
-  <!-- Control line merging up to MODKIT_VALIDATE -->
-  <path d="M450 300 L500 300 L620 200" fill="none" stroke="#0F6E56" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Branch down from experimental to CALIBRATION_SWEEP -->
-  <path d="M470 100 L470 200" fill="none" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
-
-  <!-- Branch down from experimental to MODKIT_VALIDATE -->
-  <path d="M620 100 L620 200" fill="none" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
-
-  <!-- ===== Station dots - Experimental line ===== -->
-  <circle cx="70" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
-  <circle cx="190" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
-  <circle cx="310" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
-  <circle cx="420" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
-  <circle cx="550" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
-  <circle cx="770" cy="100" r="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="2.5"/>
-
-  <!-- ===== Station dots - Control line ===== -->
-  <circle cx="70" cy="300" r="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5"/>
-  <circle cx="190" cy="300" r="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5"/>
-  <circle cx="420" cy="300" r="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5"/>
-
-  <!-- ===== Convergence stations ===== -->
-  <circle cx="470" cy="200" r="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="2.5"/>
-  <circle cx="620" cy="200" r="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="2.5"/>
-
-  <!-- ===== Labels - Experimental line (above) ===== -->
-  <text class="label" x="70" y="72" text-anchor="middle">POD5</text>
-  <text class="sublabel" x="70" y="58" text-anchor="middle">Input</text>
-
-  <text class="label" x="190" y="72" text-anchor="middle">BASECALL</text>
-  <text class="sublabel" x="190" y="58" text-anchor="middle">Dorado</text>
-
-  <text class="label" x="310" y="72" text-anchor="middle">READ_QC</text>
-  <text class="sublabel" x="310" y="58" text-anchor="middle">NanoPlot</text>
-
-  <text class="label" x="420" y="72" text-anchor="middle">ALIGN</text>
-  <text class="sublabel" x="420" y="58" text-anchor="middle">minimap2</text>
-
-  <text class="label" x="550" y="72" text-anchor="middle">MODKIT_PILEUP</text>
-  <text class="sublabel" x="550" y="58" text-anchor="middle">modkit pileup</text>
-
-  <text class="label" x="770" y="72" text-anchor="middle">bedMethyl</text>
-  <text class="sublabel" x="770" y="58" text-anchor="middle">Output</text>
-
-  <!-- ===== Labels - Control line (below) ===== -->
-  <text class="label" x="70" y="332" text-anchor="middle">POD5</text>
-  <text class="sublabel" x="70" y="346" text-anchor="middle">Control input</text>
-
-  <text class="label" x="190" y="332" text-anchor="middle">BASECALL_CONTROL</text>
-  <text class="sublabel" x="190" y="346" text-anchor="middle">Dorado</text>
-
-  <text class="label" x="420" y="332" text-anchor="middle">ALIGN_CONTROL</text>
-  <text class="sublabel" x="420" y="346" text-anchor="middle">minimap2</text>
-
-  <!-- ===== Labels - Convergence (below stations) ===== -->
-  <text class="label" x="470" y="232" text-anchor="middle">CALIBRATION_SWEEP</text>
-  <text class="sublabel" x="470" y="248" text-anchor="middle">Threshold sweep</text>
-
-  <text class="label" x="660" y="232" text-anchor="middle">MODKIT_VALIDATE</text>
-  <text class="sublabel" x="660" y="248" text-anchor="middle">modkit validate</text>
-
-  <!-- ===== Legend ===== -->
-  <line x1="70" y1="410" x2="100" y2="410" stroke="#185FA5" stroke-width="4" stroke-linecap="round"/>
-  <text class="legend-text" x="108" y="414">Experimental sample (m6A)</text>
-
-  <line x1="340" y1="410" x2="370" y2="410" stroke="#0F6E56" stroke-width="4" stroke-linecap="round"/>
-  <text class="legend-text" x="378" y="414">Control sample</text>
-
-  <circle cx="560" cy="410" r="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/>
-  <text class="legend-text" x="574" y="414">Validation</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="1207" height="679" viewBox="0 0 1207 679" xmlns:c2pa="http://c2pa.org/manifest">
+<defs>
+</defs>
+<metadata id="diagram-manifest" data-schema-version="1.0"><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTplMGRiNjhjNy1jZjAyLTQyNjctYmQ3Yi02ZTI5MTBhY2FiZTAAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaEwXYllt/4A29vs9F/oc9cMAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo2NWNjZjdjMC0zZmIyLTQ2NDQtOTY3Zi05ZmVmZDRjMTBjZGFscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNouzvFJgDsfux7Y45fADZ8FwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggkVfWNEOU8uVUNdZZxtAATUYtrxD4alTU//hrQuYXfjykZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaNVi7mgyWDy13GguNJhN8jkAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIMzyvsg8rFu8utcvwe+f+14Xy7qVQGC9wpS7JEWkhqn1ZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQEvZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmUwZGI2OGM3LWNmMDItNDI2Ny1iZDdiLTZlMjkxMGFjYWJlMC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjZiM2M1Yzk2LWMxYTgtNDEwNy04YmFkLTc2ZTI1NWY2ODM2NHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCCRV9Y0Q5Ty5VQ11lnG0ABNRi2vEPhqVNT/+GtC5hd+PKJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggJKXQ2wSXRWnQeEWIaf9uZthbvXvEv3EdN3fC9XAbz0CiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggUV2z76efCqoA5sHGUijTVj6zH3Ub4j19woqpvdb2EhR0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQFt9LfQ4s3EsVdcEWM6B7C0gAZg6ql077ueSk3Gm+gtzme7iQ+0QmphbLJS5mosYO43SPnGvU6l9xZWHeDmbBFw=</c2pa:manifest><![CDATA[{"groups":[{"color":"#2c6fbb","id":"wt","label":"Experimental sample (WT)"},{"color":"#2e7d5b","id":"ctrl","label":"Control sample (IVT)"}],"height":679,"match":{"flags":"i","target":"fqProcessName","type":"regex"},"nodes":[{"groups":["wt"],"h":12.0,"id":"pod5_wt","label":"pod5_wt","patterns":[],"r":6.0,"region":"basecall","rx":6.0,"w":12.0,"x":80.0,"y":120.0},{"groups":["ctrl"],"h":12.0,"id":"pod5_ctrl","label":"pod5_ctrl","patterns":[],"r":6.0,"region":"basecall","rx":6.0,"w":12.0,"x":80.0,"y":182.4},{"groups":["wt"],"h":12.0,"id":"basecall_wt","label":"BASECALL_WT","patterns":[],"r":6.0,"region":"basecall","rx":6.0,"w":12.0,"x":140.0,"y":120.0},{"groups":["ctrl"],"h":12.0,"id":"basecall_ctrl","label":"BASECALL_CONTROL","patterns":[],"r":6.0,"region":"basecall","rx":6.0,"w":12.0,"x":140.0,"y":182.4},{"groups":["wt"],"h":12.0,"id":"readqc_wt","label":"READ_QC_WT","patterns":[],"r":6.0,"region":"readqc","rx":6.0,"w":12.0,"x":362.0,"y":120.0},{"groups":["ctrl"],"h":12.0,"id":"readqc_ctrl","label":"READ_QC_CONTROL","patterns":[],"r":6.0,"region":"readqc","rx":6.0,"w":12.0,"x":362.0,"y":182.4},{"groups":["wt"],"h":12.0,"id":"qc_wt","label":"qc_wt","patterns":[],"r":6.0,"region":"readqc","rx":6.0,"w":12.0,"x":422.0,"y":120.0},{"groups":["ctrl"],"h":12.0,"id":"qc_ctrl","label":"qc_ctrl","patterns":[],"r":6.0,"region":"readqc","rx":6.0,"w":12.0,"x":422.0,"y":182.4},{"groups":["wt"],"h":12.0,"id":"align_wt","label":"ALIGN_WT","patterns":[],"r":6.0,"region":"align_mod","rx":6.0,"w":12.0,"x":362.0,"y":445.2},{"groups":["ctrl"],"h":12.0,"id":"align_ctrl","label":"ALIGN_CONTROL","patterns":[],"r":6.0,"region":"align_mod","rx":6.0,"w":12.0,"x":362.0,"y":507.6},{"groups":["wt"],"h":12.0,"id":"pileup_wt","label":"MODKIT_PILEUP_WT","patterns":[],"r":6.0,"region":"align_mod","rx":6.0,"w":12.0,"x":521.5,"y":445.2},{"groups":["ctrl"],"h":12.0,"id":"pileup_ctrl","label":"MODKIT_PILEUP_CONTROL","patterns":[],"r":6.0,"region":"align_mod","rx":6.0,"w":12.0,"x":521.5,"y":507.6},{"groups":["wt"],"h":12.0,"id":"bed_wt","label":"bed_wt","patterns":[],"r":6.0,"region":"align_mod","rx":6.0,"w":12.0,"x":651.5,"y":386.8},{"groups":["ctrl"],"h":12.0,"id":"bed_ctrl","label":"bed_ctrl","patterns":[],"r":6.0,"region":"align_mod","rx":6.0,"w":12.0,"x":755.0,"y":507.6},{"groups":["wt"],"h":12.0,"id":"calib","label":"CALIBRATION_SWEEP","patterns":[],"r":6.0,"region":"validation","rx":6.0,"w":12.0,"x":1049.0,"y":120.0},{"groups":["wt"],"h":12.0,"id":"acc","label":"ACCURACY_COMPARISON","patterns":[],"r":6.0,"region":"validation","rx":6.0,"w":12.0,"x":1049.0,"y":178.4},{"groups":["ctrl","wt"],"h":16.0,"id":"validate","label":"MODKIT_VALIDATE","patterns":[],"r":6.0,"region":"validation","rx":6.0,"w":12.0,"x":1049.0,"y":238.8},{"groups":["ctrl"],"h":12.0,"id":"calib_ivt","label":"CALIBRATION_SWEEP_IVT","patterns":[],"r":6.0,"region":"validation","rx":6.0,"w":12.0,"x":1049.0,"y":299.2}],"regions":[{"id":"basecall","label":"Basecalling"},{"id":"readqc","label":"Read QC"},{"id":"align_mod","label":"Alignment and aggregation"},{"id":"validation","label":"Validation"}],"title":"m6A detection pipeline","version":"1.0","width":1207}]]></metadata>
+<text x="60.0" y="30.0" font-size="26.0" fill="#111111" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" class="nf-metro-title">m6A detection pipeline</text>
+<rect x="22.0" y="70.0" width="204.0" height="158.4" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" class="nf-metro-section-box" data-section-id="basecall" data-section-lines="ctrl,wt" />
+<circle cx="33.0" cy="55.0" r="11" fill="#333333" class="nf-metro-section-num-circle" data-section-id="basecall" />
+<text x="33.0" y="55.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em" data-section-id="basecall">1</text>
+<text x="49.0" y="55.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label" data-section-id="basecall">Basecalling</text>
+<rect x="276.0" y="70.0" width="204.0" height="158.4" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" class="nf-metro-section-box" data-section-id="readqc" data-section-lines="ctrl,wt" />
+<circle cx="287.0" cy="55.0" r="11" fill="#333333" class="nf-metro-section-num-circle" data-section-id="readqc" />
+<text x="287.0" y="55.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em" data-section-id="readqc">2</text>
+<text x="303.0" y="55.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label" data-section-id="readqc">Read QC</text>
+<rect x="276.0" y="336.8" width="565.0" height="216.7999999999999" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" class="nf-metro-section-box" data-section-id="align_mod" data-section-lines="ctrl,wt" />
+<circle cx="287.0" cy="321.8" r="11" fill="#333333" class="nf-metro-section-num-circle" data-section-id="align_mod" />
+<text x="287.0" y="321.8" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em" data-section-id="align_mod">3</text>
+<text x="303.0" y="321.8" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label" data-section-id="align_mod">Alignment and aggregation</text>
+<rect x="921.0" y="70.0" width="226.5" height="275.2" rx="8" ry="8" fill="#ededed" stroke="#e6e6e6" stroke-width="1.0" class="nf-metro-section-box" data-section-id="validation" data-section-lines="ctrl,wt" />
+<circle cx="932.0" cy="55.0" r="11" fill="#333333" class="nf-metro-section-num-circle" data-section-id="validation" />
+<text x="932.0" y="55.0" font-size="12" fill="#ffffff" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em" data-section-id="validation">4</text>
+<text x="948.0" y="55.0" font-size="17.0" fill="#666666" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" dy="0.3em" class="nf-metro-section-label" data-section-id="validation">Validation</text>
+<path d="M80.0,182.39999999999998 L140.0,182.39999999999998" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M362.0,182.39999999999998 L422.0,182.39999999999998" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M362.0,507.59999999999997 L521.5,507.59999999999997" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M521.5,507.59999999999997 L755.0,507.59999999999997" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M140.0,182.39999999999998 L171.0,182.39999999999998 Q181.0,182.39999999999998,185.56934981397032,173.50499902880443 L206.43065018602968,132.89500097119554 Q211.0,124.0,221.0,124.0 L226.0,124.0" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M276.0,124.0 L281.0,124.0 Q291.0,124.0,295.5693498139703,132.89500097119554 L316.4306501860297,173.50499902880443 Q321.0,182.39999999999998,331.0,182.39999999999998 L362.0,182.39999999999998" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M276.0,507.59999999999997 L362.0,507.59999999999997" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M362.0,507.59999999999997 L410.5,507.59999999999997 Q420.5,507.59999999999997,427.6659685053255,500.6251239881498 L443.3340314946745,485.3748760118501 Q450.5,478.4,460.5,478.4 L841.0,478.4" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M921.0,240.79999999999998 L1049.0,240.79999999999998" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M521.5,507.59999999999997 L606.0,507.59999999999997 Q616.0,507.59999999999997,623.1659685053255,500.6251239881498 L638.8340314946745,485.3748760118501 Q646.0,478.4,656.0,478.4 L841.0,478.4" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M921.0,240.79999999999998 L926.0,240.79999999999998 Q936.0,240.79999999999998,940.5693498139703,249.69500097119553 L961.4306501860297,290.30499902880445 Q966.0,299.2,976.0,299.2 L1049.0,299.2" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M226.0,124.0 L236.0,124.0" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M236.0,124.0 L276.0,124.0" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M236.0,124.0 L239.0,124.0 Q249.0,124.0,249.0,134.0 L249.0,493.59999999999997 Q249.0,507.59999999999997,263.0,507.59999999999997 L276.0,507.59999999999997" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M841.0,478.4 L869.0,478.4 Q883.0,478.4,883.0,464.4 L883.0,250.79999999999998 Q883.0,240.79999999999998,893.0,240.79999999999998 L921.0,240.79999999999998" stroke="#2e7d5b" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-ctrl" data-line-id="ctrl" />
+<path d="M80.0,120.0 L140.0,120.0" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M362.0,120.0 L422.0,120.0" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M362.0,445.2 L521.5,445.2" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M521.5,445.2 L581.5,445.2 Q591.5,445.2,596.0693498139703,436.30499902880445 L616.9306501860297,395.69500097119555 Q621.5,386.8,631.5,386.8 L651.5,386.8" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M140.0,120.0 L226.0,120.0" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M276.0,120.0 L362.0,120.0" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M276.0,503.59999999999997 L281.0,503.59999999999997 Q291.0,503.59999999999997,295.5693498139703,494.7049990288044 L316.4306501860297,454.09500097119553 Q321.0,445.2,331.0,445.2 L362.0,445.2" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M521.5,445.2 L583.5,445.2 Q593.5,445.2,600.6659685053255,452.17487601185013 L616.3340314946745,467.42512398814983 Q623.5,474.4,633.5,474.4 L841.0,474.4" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M921.0,236.79999999999998 L926.0,236.79999999999998 Q936.0,236.79999999999998,938.4877435036134,227.11438529259863 L963.5122564963866,129.68561470740136 Q966.0,120.0,976.0,120.0 L1049.0,120.0" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M921.0,236.79999999999998 L926.0,236.79999999999998 Q936.0,236.79999999999998,940.5693498139703,227.90499902880444 L961.4306501860297,187.29500097119552 Q966.0,178.39999999999998,976.0,178.39999999999998 L1049.0,178.39999999999998" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M362.0,445.2 L388.0,445.2 Q398.0,445.2,405.1659685053255,452.17487601185013 L420.8340314946745,467.42512398814983 Q428.0,474.4,438.0,474.4 L841.0,474.4" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M921.0,236.79999999999998 L1049.0,236.79999999999998" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M226.0,120.0 L236.0,120.0" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M236.0,120.0 L276.0,120.0" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M236.0,120.0 L239.0,120.0 Q253.0,120.0,253.0,134.0 L253.0,493.59999999999997 Q253.0,503.59999999999997,263.0,503.59999999999997 L276.0,503.59999999999997" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<path d="M841.0,474.4 L869.0,474.4 Q879.0,474.4,879.0,464.4 L879.0,250.79999999999998 Q879.0,236.79999999999998,893.0,236.79999999999998 L921.0,236.79999999999998" stroke="#2c6fbb" stroke-width="3.0" fill="none" stroke-linecap="round" stroke-linejoin="round" class="metro-line-wt" data-line-id="wt" />
+<g class="nf-metro-station-group" data-node-id="pod5_wt" data-node-cx="80.0" data-node-cy="120.0" data-node-r="6.0" data-node-groups="wt" data-node-region="basecall" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="74.0" y="114.0" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="pod5_wt" data-station-lines="wt" data-station-label="pod5_wt" data-section-id="basecall" data-section-name="Basecalling" />
+<g data-station-id="pod5_wt">
+<path d="M42.0,104.0 L60.0,104.0 L68.0,112.0 L68.0,134.0 Q68.0,136.0,66.0,136.0 L42.0,136.0 Q40.0,136.0,40.0,134.0 L40.0,106.0 Q40.0,104.0,42.0,104.0 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M60.0,104.0 L60.0,112.0 L68.0,112.0 Z" fill="#333333" opacity="0.15" stroke="none" />
+<path d="M60.0,104.0 L60.0,112.0 L68.0,112.0" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
+<text x="54.0" y="121.2" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">POD5</text>
+<text x="54.0" y="140.0" font-size="8.4" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" class="nf-metro-station-label">WT</text>
+</g>
+</g>
+<g class="nf-metro-station-group" data-node-id="pod5_ctrl" data-node-cx="80.0" data-node-cy="182.4" data-node-r="6.0" data-node-groups="ctrl" data-node-region="basecall" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="74.0" y="176.39999999999998" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="pod5_ctrl" data-station-lines="ctrl" data-station-label="pod5_ctrl" data-section-id="basecall" data-section-name="Basecalling" />
+<g data-station-id="pod5_ctrl">
+<path d="M42.0,166.39999999999998 L60.0,166.39999999999998 L68.0,174.39999999999998 L68.0,196.39999999999998 Q68.0,198.39999999999998,66.0,198.39999999999998 L42.0,198.39999999999998 Q40.0,198.39999999999998,40.0,196.39999999999998 L40.0,168.39999999999998 Q40.0,166.39999999999998,42.0,166.39999999999998 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M60.0,166.39999999999998 L60.0,174.39999999999998 L68.0,174.39999999999998 Z" fill="#333333" opacity="0.15" stroke="none" />
+<path d="M60.0,166.39999999999998 L60.0,174.39999999999998 L68.0,174.39999999999998" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
+<text x="54.0" y="183.59999999999997" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">POD5</text>
+<text x="54.0" y="202.39999999999998" font-size="8.4" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" class="nf-metro-station-label">IVT</text>
+</g>
+</g>
+<g class="nf-metro-station-group" data-node-id="basecall_wt" data-node-cx="140.0" data-node-cy="120.0" data-node-r="6.0" data-node-groups="wt" data-node-region="basecall" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="134.0" y="114.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="basecall_wt" data-station-lines="wt" data-station-label="BASECALL_WT" data-section-id="basecall" data-section-name="Basecalling" />
+</g>
+<g class="nf-metro-station-group" data-node-id="basecall_ctrl" data-node-cx="140.0" data-node-cy="182.4" data-node-r="6.0" data-node-groups="ctrl" data-node-region="basecall" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="134.0" y="176.39999999999998" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="basecall_ctrl" data-station-lines="ctrl" data-station-label="BASECALL_CONTROL" data-section-id="basecall" data-section-name="Basecalling" />
+</g>
+<g class="nf-metro-station-group" data-node-id="readqc_wt" data-node-cx="362.0" data-node-cy="120.0" data-node-r="6.0" data-node-groups="wt" data-node-region="readqc" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="356.0" y="114.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="readqc_wt" data-station-lines="wt" data-station-label="READ_QC_WT" data-section-id="readqc" data-section-name="Read QC" />
+</g>
+<g class="nf-metro-station-group" data-node-id="readqc_ctrl" data-node-cx="362.0" data-node-cy="182.4" data-node-r="6.0" data-node-groups="ctrl" data-node-region="readqc" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="356.0" y="176.39999999999998" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="readqc_ctrl" data-station-lines="ctrl" data-station-label="READ_QC_CONTROL" data-section-id="readqc" data-section-name="Read QC" />
+</g>
+<g class="nf-metro-station-group" data-node-id="qc_wt" data-node-cx="422.0" data-node-cy="120.0" data-node-r="6.0" data-node-groups="wt" data-node-region="readqc" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="416.0" y="114.0" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="qc_wt" data-station-lines="wt" data-station-label="qc_wt" data-section-id="readqc" data-section-name="Read QC" />
+<g data-station-id="qc_wt">
+<path d="M436.0,104.0 L454.0,104.0 L462.0,112.0 L462.0,134.0 Q462.0,136.0,460.0,136.0 L436.0,136.0 Q434.0,136.0,434.0,134.0 L434.0,106.0 Q434.0,104.0,436.0,104.0 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M454.0,104.0 L454.0,112.0 L462.0,112.0 Z" fill="#333333" opacity="0.15" stroke="none" />
+<path d="M454.0,104.0 L454.0,112.0 L462.0,112.0" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
+<text x="448.0" y="121.2" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">HTML</text>
+<text x="448.0" y="140.0" font-size="8.4" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" class="nf-metro-station-label">NanoPlot</text>
+</g>
+</g>
+<g class="nf-metro-station-group" data-node-id="qc_ctrl" data-node-cx="422.0" data-node-cy="182.4" data-node-r="6.0" data-node-groups="ctrl" data-node-region="readqc" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="416.0" y="176.39999999999998" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="qc_ctrl" data-station-lines="ctrl" data-station-label="qc_ctrl" data-section-id="readqc" data-section-name="Read QC" />
+<g data-station-id="qc_ctrl">
+<path d="M436.0,166.39999999999998 L454.0,166.39999999999998 L462.0,174.39999999999998 L462.0,196.39999999999998 Q462.0,198.39999999999998,460.0,198.39999999999998 L436.0,198.39999999999998 Q434.0,198.39999999999998,434.0,196.39999999999998 L434.0,168.39999999999998 Q434.0,166.39999999999998,436.0,166.39999999999998 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M454.0,166.39999999999998 L454.0,174.39999999999998 L462.0,174.39999999999998 Z" fill="#333333" opacity="0.15" stroke="none" />
+<path d="M454.0,166.39999999999998 L454.0,174.39999999999998 L462.0,174.39999999999998" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
+<text x="448.0" y="183.59999999999997" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">HTML</text>
+<text x="448.0" y="202.39999999999998" font-size="8.4" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" class="nf-metro-station-label">NanoPlot</text>
+</g>
+</g>
+<g class="nf-metro-station-group" data-node-id="align_wt" data-node-cx="362.0" data-node-cy="445.2" data-node-r="6.0" data-node-groups="wt" data-node-region="align_mod" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="356.0" y="439.2" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="align_wt" data-station-lines="wt" data-station-label="ALIGN_WT" data-section-id="align_mod" data-section-name="Alignment and aggregation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="align_ctrl" data-node-cx="362.0" data-node-cy="507.6" data-node-r="6.0" data-node-groups="ctrl" data-node-region="align_mod" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="356.0" y="501.59999999999997" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="align_ctrl" data-station-lines="ctrl" data-station-label="ALIGN_CONTROL" data-section-id="align_mod" data-section-name="Alignment and aggregation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="pileup_wt" data-node-cx="521.5" data-node-cy="445.2" data-node-r="6.0" data-node-groups="wt" data-node-region="align_mod" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="515.5" y="439.2" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="pileup_wt" data-station-lines="wt" data-station-label="MODKIT_PILEUP_WT" data-section-id="align_mod" data-section-name="Alignment and aggregation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="pileup_ctrl" data-node-cx="521.5" data-node-cy="507.6" data-node-r="6.0" data-node-groups="ctrl" data-node-region="align_mod" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="515.5" y="501.59999999999997" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="pileup_ctrl" data-station-lines="ctrl" data-station-label="MODKIT_PILEUP_CONTROL" data-section-id="align_mod" data-section-name="Alignment and aggregation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="bed_wt" data-node-cx="651.5" data-node-cy="386.8" data-node-r="6.0" data-node-groups="wt" data-node-region="align_mod" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="645.5" y="380.8" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="bed_wt" data-station-lines="wt" data-station-label="bed_wt" data-section-id="align_mod" data-section-name="Alignment and aggregation" />
+<g data-station-id="bed_wt">
+<path d="M665.5,370.8 L683.5,370.8 L691.5,378.8 L691.5,400.8 Q691.5,402.8,689.5,402.8 L665.5,402.8 Q663.5,402.8,663.5,400.8 L663.5,372.8 Q663.5,370.8,665.5,370.8 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M683.5,370.8 L683.5,378.8 L691.5,378.8 Z" fill="#333333" opacity="0.15" stroke="none" />
+<path d="M683.5,370.8 L683.5,378.8 L691.5,378.8" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
+<text x="677.5" y="388.0" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">BED</text>
+<text x="677.5" y="406.8" font-size="8.4" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" class="nf-metro-station-label">bedMethyl</text>
+</g>
+</g>
+<g class="nf-metro-station-group" data-node-id="bed_ctrl" data-node-cx="755.0" data-node-cy="507.6" data-node-r="6.0" data-node-groups="ctrl" data-node-region="align_mod" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="749.0" y="501.59999999999997" width="12.0" height="12.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="bed_ctrl" data-station-lines="ctrl" data-station-label="bed_ctrl" data-section-id="align_mod" data-section-name="Alignment and aggregation" />
+<g data-station-id="bed_ctrl">
+<path d="M769.0,491.59999999999997 L787.0,491.59999999999997 L795.0,499.59999999999997 L795.0,521.5999999999999 Q795.0,523.5999999999999,793.0,523.5999999999999 L769.0,523.5999999999999 Q767.0,523.5999999999999,767.0,521.5999999999999 L767.0,493.59999999999997 Q767.0,491.59999999999997,769.0,491.59999999999997 Z" fill="#ffffff" stroke="#333333" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M787.0,491.59999999999997 L787.0,499.59999999999997 L795.0,499.59999999999997 Z" fill="#333333" opacity="0.15" stroke="none" />
+<path d="M787.0,491.59999999999997 L787.0,499.59999999999997 L795.0,499.59999999999997" fill="none" stroke="#333333" stroke-width="0.8999999999999999" />
+<text x="781.0" y="508.79999999999995" font-size="7.5" fill="#000000" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dy="0.3em">BED</text>
+<text x="781.0" y="527.5999999999999" font-size="8.4" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" class="nf-metro-station-label">bedMethyl</text>
+</g>
+</g>
+<g class="nf-metro-station-group" data-node-id="calib" data-node-cx="1049.0" data-node-cy="120.0" data-node-r="6.0" data-node-groups="wt" data-node-region="validation" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="1043.0" y="114.0" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="calib" data-station-lines="wt" data-station-label="CALIBRATION_SWEEP" data-section-id="validation" data-section-name="Validation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="acc" data-node-cx="1049.0" data-node-cy="178.4" data-node-r="6.0" data-node-groups="wt" data-node-region="validation" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="1043.0" y="172.39999999999998" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="acc" data-station-lines="wt" data-station-label="ACCURACY_COMPARISON" data-section-id="validation" data-section-name="Validation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="validate" data-node-cx="1049.0" data-node-cy="238.8" data-node-r="6.0" data-node-groups="ctrl,wt" data-node-region="validation" data-node-w="12.0" data-node-h="16.0" data-node-rx="6.0">
+<rect x="1043.0" y="230.79999999999998" width="12.0" height="16.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="validate" data-station-lines="ctrl,wt" data-station-label="MODKIT_VALIDATE" data-section-id="validation" data-section-name="Validation" />
+</g>
+<g class="nf-metro-station-group" data-node-id="calib_ivt" data-node-cx="1049.0" data-node-cy="299.2" data-node-r="6.0" data-node-groups="ctrl" data-node-region="validation" data-node-w="12.0" data-node-h="12.0" data-node-rx="6.0">
+<rect x="1043.0" y="293.2" width="12.0" height="12.0" rx="6.0" ry="6.0" fill="#ffffff" stroke="#333333" stroke-width="2.0" class="nf-metro-station" data-station-id="calib_ivt" data-station-lines="ctrl" data-station-label="CALIBRATION_SWEEP_IVT" data-section-id="validation" data-section-name="Validation" />
+</g>
+<text x="362.0" y="106.0" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="auto">READ_QC_WT</text>
+<text x="362.0" y="106.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto" data-station-id="readqc_wt" class="nf-metro-station-label">READ_QC_WT</text>
+<text x="362.0" y="456.2" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="hanging">ALIGN_WT</text>
+<text x="362.0" y="456.2" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" data-station-id="align_wt" class="nf-metro-station-label">ALIGN_WT</text>
+<text transform="translate(-9,0)" x="360.4" y="193.39999999999998" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="hanging">READ_QC_CONTROL</text>
+<text transform="translate(-9,0)" x="360.4" y="193.39999999999998" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" data-station-id="readqc_ctrl" class="nf-metro-station-label">READ_QC_CONTROL</text>
+<text x="362.0" y="518.5999999999999" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="hanging">ALIGN_CONTROL</text>
+<text x="362.0" y="518.5999999999999" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" data-station-id="align_ctrl" class="nf-metro-station-label">ALIGN_CONTROL</text>
+<text x="1049.0" y="106.0" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="auto">CALIBRATION_SWEEP</text>
+<text x="1049.0" y="106.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto" data-station-id="calib" class="nf-metro-station-label">CALIBRATION_SWEEP</text>
+<text transform="translate(12,-6)" x="1049.0" y="164.39999999999998" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="auto">ACCURACY_COMPARISON</text>
+<text transform="translate(12,-6)" x="1049.0" y="164.39999999999998" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto" data-station-id="acc" class="nf-metro-station-label">ACCURACY_COMPARISON</text>
+<text x="1049.0" y="222.79999999999998" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="auto">MODKIT_VALIDATE</text>
+<text x="1049.0" y="222.79999999999998" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto" data-station-id="validate" class="nf-metro-station-label">MODKIT_VALIDATE</text>
+<text x="1049.0" y="310.2" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="hanging">CALIBRATION_SWEEP_IVT</text>
+<text x="1049.0" y="310.2" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" data-station-id="calib_ivt" class="nf-metro-station-label">CALIBRATION_SWEEP_IVT</text>
+<text x="140.0" y="106.0" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="auto">BASECALL_WT</text>
+<text x="140.0" y="106.0" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto" data-station-id="basecall_wt" class="nf-metro-station-label">BASECALL_WT</text>
+<text x="521.5" y="431.2" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="auto">MODKIT_PILEUP_WT</text>
+<text x="521.5" y="431.2" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="auto" data-station-id="pileup_wt" class="nf-metro-station-label">MODKIT_PILEUP_WT</text>
+<text x="146.1" y="193.39999999999998" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="hanging">BASECALL_CONTROL</text>
+<text x="146.1" y="193.39999999999998" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" data-station-id="basecall_ctrl" class="nf-metro-station-label">BASECALL_CONTROL</text>
+<text transform="translate(20,0)" x="521.5" y="521.5999999999999" font-size="14.0" fill="#ffffff" stroke="#ffffff" stroke-width="3.0" stroke-linejoin="round" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" aria-hidden="true" class="nf-metro-label-halo" text-anchor="middle" dominant-baseline="hanging">MODKIT_PILEUP_CONTROL</text>
+<text transform="translate(20,0)" x="521.5" y="521.5999999999999" font-size="14.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="hanging" data-station-id="pileup_ctrl" class="nf-metro-station-label">MODKIT_PILEUP_CONTROL</text>
+<rect x="22.0" y="583.5999999999999" width="271.20000000000005" height="72.0" rx="6" ry="6" fill="rgba(255, 255, 255, 0.8)" class="nf-metro-legend-bg" />
+<path d="M34.0,607.5999999999999 L58.0,607.5999999999999" stroke="#2c6fbb" stroke-width="3.0" stroke-linecap="round" />
+<text x="70.0" y="607.5999999999999" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em" class="nf-metro-legend-text">Experimental sample (WT)</text>
+<path d="M34.0,631.5999999999999 L58.0,631.5999999999999" stroke="#2e7d5b" stroke-width="3.0" stroke-linecap="round" />
+<text x="70.0" y="631.5999999999999" font-size="16.0" fill="#333333" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" dy="0.3em" class="nf-metro-legend-text">Control sample (IVT)</text>
+<text x="1177.0" y="671.0" font-size="8" fill="rgba(150, 150, 150, 0.6)" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" text-anchor="end">created with nf-metro v2.1.0</text>
 </svg>

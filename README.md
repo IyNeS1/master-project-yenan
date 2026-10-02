@@ -11,7 +11,7 @@ The pipeline consists of 9 modular processes shared across analysis and benchmar
 | Step | Process | Tool | Description |
 |------|---------|------|-------------|
 | 1 | BASECALL | Dorado (GPU) | Raw signal to base sequences with m6A modification tags |
-| 2 | READ_QC | NanoPlot | Quality assessment of basecalled reads |
+| 2 | READ_QC | NanoPlot | Quality assessment of basecalled reads (WT and control) |
 | 3 | ALIGN | minimap2 + samtools | Splice-aware alignment preserving MM/ML tags |
 | 4 | MODKIT_PILEUP | modkit pileup | Aggregate per-site m6A modification frequencies into bedMethyl |
 | 5 | CALIBRATION_SWEEP | calibration_sweep.py | Site-level precision/recall/F1 across frequency thresholds |
@@ -128,6 +128,20 @@ nextflow run benchmark_from_bam.nf -profile singularity \
   --outdir results_benchmark
 ```
 
+### Test profile
+
+```bash
+nextflow run main.nf -profile test,singularity
+```
+
+Runs the pipeline on the ONT DRACH context validation data, starting from
+ONT's pre-basecalled BAM files. No GPU is required. Expected result at the
+80% threshold: 22 sites called, TP 20, FP 2, precision 0.909, recall 1.0,
+F1 0.952.
+
+This differs from the F1 of 0.976 reported for the same dataset when
+basecalling from POD5 with Dorado 1.3.1, because the basecalls are different.
+
 ### Spartan HPC (University of Melbourne)
 
 ```bash
@@ -170,6 +184,23 @@ MODKIT_PILEUP produces two bedMethyl files per sample:
 
 - `modifications.bed`: filtered (m6A only, coverage >= min_coverage, frequency > mod_threshold)
 - `all_modifications.bed`: unfiltered, for custom downstream analysis
+
+Results are organised by sample, then by step:
+
+```
+results/
+  wt/
+    qc/            NanoPlot report
+    aligned/       sorted and indexed BAM
+    modkit/        modifications.bed, all_modifications.bed
+    calibration/   calibration sweep CSV and plots
+  control/
+    qc/            NanoPlot report
+    aligned/       sorted and indexed BAM
+    modkit/        modifications.bed, all_modifications.bed
+    calibration/   IVT false positive sweep CSV and plots
+  validate/        per-read accuracy from modkit validate
+```
 
 ## Benchmarking Results
 
